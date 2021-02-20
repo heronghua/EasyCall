@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">EasyCall</string>
+    <string name="gain_picture">获取照片</string>
+    <string name="set_num">设置电话号码</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
+    <string name="plz_input_phone_num">请输入电话号码</string>
+    <string name="conirm_delet">确认删除吗？</string>
+
+    <string-array name="choices">
+        <item>相册</item>
+        <item>拍照</item>
+    </string-array>
+</resources>

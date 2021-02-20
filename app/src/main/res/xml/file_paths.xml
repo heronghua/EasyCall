@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <root-path name="root" path="" />
+
+    <!--After android q ,other app can not access internal files dirs ,so files dir can not be use by file provider-->
+    <files-path name="files" path="." />
+    <!--context.getDir("contacts",Context.MODE_PRIVATE)  /data/data/$packageName/app_contacts useless after q-->
+    <files-path name="contacts" path="contacts" />
+    <cache-path name="cache" path="." />
+
+    <external-path name="external" path="." />
+    <external-files-path name="easy_call_path" path="contacts" />
+    <external-cache-path name="easy_call_cache" path="." />
+</paths>
