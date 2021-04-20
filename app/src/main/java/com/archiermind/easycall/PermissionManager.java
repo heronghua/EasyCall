@@ -18,8 +18,9 @@ public class PermissionManager {
 
     private static final String TAG = PermissionManager.class.getSimpleName();
 
-    public static final String[] BASIC_PERMISSIONS = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    ,Manifest.permission.CALL_PHONE};
+    public static final String[] BASIC_PERMISSIONS = new String[]{
+           // Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CALL_PHONE};
 
     public static final String[] OPTIONAL_PERMISSIONS = new String[]{Manifest.permission.CAMERA};
 

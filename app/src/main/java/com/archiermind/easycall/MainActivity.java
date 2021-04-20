@@ -23,7 +23,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends Activity implements Handler.Callback, View.OnTouchListener, AdapterView.OnItemClickListener, DialogInterface.OnClickListener, AdapterView.OnItemLongClickListener {
+public class MainActivity extends Activity implements Handler.Callback,
+        View.OnTouchListener, AdapterView.OnItemClickListener,
+        DialogInterface.OnClickListener, AdapterView.OnItemLongClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
