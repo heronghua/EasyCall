@@ -1,14 +1,9 @@
 package com.archiermind.easycall;
 
-import android.app.Instrumentation;
-import android.content.Context;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
-
-import androidx.test.uiautomator.UiDevice;
-import org.junit.Before;
+import androidx.test.uiautomator.UiObject;
+import androidx.test.uiautomator.UiObjectNotFoundException;
+import androidx.test.uiautomator.UiSelector;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 
@@ -17,32 +12,33 @@ import static org.junit.Assert.*;
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
-@RunWith(AndroidJUnit4.class)
-public class BasicFunctionInstrumentedTest {
 
-    private UiDevice mUiDevice;
-    private Instrumentation mInstrumentation;
-    private Context mTargetContext;
+public class BasicFunctionInstrumentedTest extends BaseFunctionTest{
 
-    @Before
-    public void setUp(){
-        mInstrumentation = InstrumentationRegistry.getInstrumentation();
-        mTargetContext = mInstrumentation.getTargetContext();
-        mUiDevice = UiDevice.getInstance(mInstrumentation);
+    @Test
+    public void testAddContact() throws UiObjectNotFoundException {
+
+        UiObject grid = mUiDevice.findObject(new UiSelector().description("grid"));
+        //TODO how to perform double click
+        grid.click();
+        grid.clickAndWaitForNewWindow();
+
     }
 
     @Test
-    public void useAppContext() {
-        // Context of the app under test.
-        assertEquals("com.archiermind.easycall", mTargetContext.getPackageName());
-    }
+    public void testPhoneCall() throws UiObjectNotFoundException {
+        UiObject grid = mUiDevice.findObject(new UiSelector().description("grid"));
+        UiSelector phoneNumItemSelector = new UiSelector().index(0);
+        UiObject itemUiObject = grid.getChild(phoneNumItemSelector);
 
-    @Test
-    public void testAddContact(){
+        UiObject phoneNumTextView = itemUiObject.getChild(new UiSelector().description("phoneNum"));
+        String phoneNum = phoneNumTextView.getText();
+        assertNotNull(phoneNum);
+        assertNotEquals("",phoneNum);
 
-        mUiDevice.pressHome();
+        itemUiObject.clickAndWaitForNewWindow();
 
-
+        assertTrue(findUiObjectDuring(new UiSelector().text(phoneNum),5));
 
     }
 

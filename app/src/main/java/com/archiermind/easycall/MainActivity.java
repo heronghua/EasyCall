@@ -60,6 +60,7 @@ public class MainActivity extends Activity implements Handler.Callback,
         mGridView.setAdapter(mAdapter);
         mGridView.setOnItemClickListener(this);
         setContentView(mGridView);
+        mGridView.setContentDescription("grid");
 
         doParseInBackground();
 
