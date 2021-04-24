@@ -1,9 +1,13 @@
 package com.archiermind.easycall;
 
+import android.graphics.Rect;
+import android.util.Log;
 import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 import org.junit.Test;
+
+import java.io.IOException;
 
 import static org.junit.Assert.*;
 
@@ -16,12 +20,14 @@ import static org.junit.Assert.*;
 public class BasicFunctionInstrumentedTest extends BaseFunctionTest{
 
     @Test
-    public void testAddContact() throws UiObjectNotFoundException {
-
+    public void testAddContact() throws IOException, UiObjectNotFoundException {
         UiObject grid = mUiDevice.findObject(new UiSelector().description("grid"));
-        //TODO how to perform double click
-        grid.click();
-        grid.clickAndWaitForNewWindow();
+        Rect bounds = grid.getBounds();
+        mUiDevice.executeShellCommand("input tap " + bounds.right /2+ " " + bounds.bottom/2);
+        mUiDevice.executeShellCommand("input tap " + bounds.right/2 + " " + bounds.bottom/2);
+        Log.i(TAG,"[testAddContact] bounds.right/2 " + bounds.right/2);
+        boolean enterNextPageSuccess = findUiObjectDuring(new UiSelector().text("获取照片"), 5);
+        assertTrue(enterNextPageSuccess);
 
     }
 
@@ -38,7 +44,11 @@ public class BasicFunctionInstrumentedTest extends BaseFunctionTest{
 
         itemUiObject.clickAndWaitForNewWindow();
 
-        assertTrue(findUiObjectDuring(new UiSelector().text(phoneNum),5));
+        /*String currentPackageName = mUiDevice.getCurrentPackageName();
+        Log.i(TAG,"testPhoneCall pkgName" + currentPackageName);
+        assertEquals("com.android.incallui", currentPackageName);*/
+
+        findUiObjectDuring(new UiSelector().text(phoneNum),0);
 
     }
 

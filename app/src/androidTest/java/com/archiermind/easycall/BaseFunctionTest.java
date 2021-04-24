@@ -10,8 +10,15 @@ import androidx.test.uiautomator.UiSelector;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 
+import java.io.File;
+import java.io.IOException;
+
 @RunWith(AndroidJUnit4.class)
 public class BaseFunctionTest {
+
+    protected static final boolean DEBUG = true;
+
+    protected String TAG;
 
     protected UiDevice mUiDevice;
     protected Instrumentation mInstrumentation;
@@ -29,12 +36,20 @@ public class BaseFunctionTest {
         Intent intent = mContext.getPackageManager().getLaunchIntentForPackage(mTargetContext.getPackageName());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         mContext.startActivity(intent);
+
+        TAG = this.getClass().getSimpleName();
     }
 
+    /**
+     *
+     * @param selector  the object selector which you want to find on this page
+     * @param seconds seconds during check
+     * @return true if you find selector on current page
+     */
     protected boolean findUiObjectDuring(UiSelector selector,int seconds){
         long startTime = System.currentTimeMillis();
-        while (System.currentTimeMillis() < startTime + seconds * 1000){
-            if (selector != null){
+        while (System.currentTimeMillis() <= startTime + seconds * 1000){
+            if (mUiDevice.findObject(selector).exists()){
                 return true;
             }
             try {
@@ -42,6 +57,13 @@ public class BaseFunctionTest {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+
+        // could not find object during #seconds , we should dump hierarchy to check
+        try {
+            mUiDevice.dumpWindowHierarchy(new File("/sdcard/AT_DUMP/"+selector.hashCode()));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return false;
     }
