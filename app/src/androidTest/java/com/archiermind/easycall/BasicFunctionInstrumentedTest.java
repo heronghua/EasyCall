@@ -9,6 +9,8 @@ import org.junit.runners.MethodSorters;
 
 import java.io.IOException;
 
+import java.io.IOException;
+
 import static org.junit.Assert.*;
 
 /**
