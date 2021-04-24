@@ -38,8 +38,8 @@ public class JiaGuPlugin implements Plugin<Project> {
                                 String name = baseVariantOutput.getName();
 
                                 System.out.println("outputFile : " + outputFile + "name" + name);
-                                if ("debug".equals(name)){
-                                    project.getTasks().create("jiagu"+name,JiaGuTask.class,outputFile,jiagu);
+                                if ("release".equals(name)){
+                                    project.getTasks().create("jiagu-"+name,JiaGuTask.class,outputFile,jiagu);
                                 }
                             }
                         });

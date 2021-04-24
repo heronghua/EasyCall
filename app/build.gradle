@@ -106,17 +106,20 @@ if (jiaguPluginPublishedLocal){
 
     jiagu {
         userName "Ronghua He"
-        userPwd "xxxxxxxxxxx"
+        // you should configure your right password var environment
+        userPwd System.getenv("JIA_GU_360_LOGIN_PWD")
 
-        keyStorePath ""
+        keyStorePath "../keystores/release.keystore"
 
-        keyStorePass ""
+        // you should configure your right password var environment
+        keyStorePass System.getenv("KEY_PWD")
 
-        keyStoreAlias ""
+        keyStoreAlias "androidreleasekey"
 
-        getKeyStoreAliasPwd ""
+        // you should configure your right password var environment
+        getKeyStoreAliasPwd System.getenv("STORE_PWD")
 
-        jiaguToolPath ""
+        jiaguToolPath "D:\\Android\\360jiagubao_windows_64\\jiagu\\jiagu.jar"
 
     }
 

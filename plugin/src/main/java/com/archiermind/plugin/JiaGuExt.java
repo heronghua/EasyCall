@@ -71,4 +71,17 @@ public class JiaGuExt {
     public void setJiaguToolPath(String jiaguToolPath) {
         this.jiaguToolPath = jiaguToolPath;
     }
+
+    @Override
+    public String toString() {
+        return "JiaGuExt{" +
+                "userName='" + userName + '\'' +
+                ", userPwd='" + userPwd + '\'' +
+                ", keyStorePath='" + keyStorePath + '\'' +
+                ", keyStorePass='" + keyStorePass + '\'' +
+                ", keyStoreAlias='" + keyStoreAlias + '\'' +
+                ", getKeyStoreAliasPwd='" + getKeyStoreAliasPwd + '\'' +
+                ", jiaguToolPath='" + jiaguToolPath + '\'' +
+                '}';
+    }
 }

@@ -24,13 +24,42 @@ public class JiaGuTask extends DefaultTask {
     @TaskAction
     public void abc(){
 
+        System.out.println("############################################################");
+        System.out.println("##########        print params configured          #########");
+        System.out.println("##########        "+jiaGuExt.toString()+"          #########");
+        System.out.println("############################################################");
+
+
         getProject().exec(new Action<ExecSpec>() {
             @Override
             public void execute(ExecSpec execSpec) {
 
-                execSpec.commandLine("java","-jar");
+                execSpec.commandLine("java","-jar",jiaGuExt.getJiaguToolPath()
+                        ,"-login",jiaGuExt.getUserName(),jiaGuExt.getUserPwd() );
             }
         });
+
+
+        getProject().exec(new Action<ExecSpec>() {
+            @Override
+            public void execute(ExecSpec execSpec) {
+
+                execSpec.commandLine("java","-jar",jiaGuExt.getJiaguToolPath()
+                        ,"-importsign",jiaGuExt.getKeyStorePath(),jiaGuExt.getKeyStorePass()
+                        ,jiaGuExt.getKeyStoreAlias(),jiaGuExt.getGetKeyStoreAliasPwd() );
+            }
+        });
+
+
+        getProject().exec(new Action<ExecSpec>() {
+            @Override
+            public void execute(ExecSpec execSpec) {
+
+                execSpec.commandLine("java","-jar",jiaGuExt.getJiaguToolPath()
+                        ,"-jiagu",apkFile.getAbsoluteFile(),apkFile.getParent(),"-autosign");
+            }
+        });
+
     }
 
 }
