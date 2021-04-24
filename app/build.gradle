@@ -1,5 +1,8 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.archermind.jiagu'
+if (jiaguPluginPublishedLocal){
+    apply plugin: 'com.archermind.jiagu'
+}
+
 
 android {
     compileSdkVersion 30
@@ -99,19 +102,23 @@ dependencies {
     //====================================================================================
 }
 
-jiagu{
-    userName "Ronghua He"
-    userPwd "razgrarm5476138"
+if (jiaguPluginPublishedLocal){
 
-    keyStorePath ""
+    jiagu {
+        userName "Ronghua He"
+        userPwd "xxxxxxxxxxx"
 
-    keyStorePass ""
+        keyStorePath ""
 
-    keyStoreAlias ""
+        keyStorePass ""
 
-    getKeyStoreAliasPwd ""
+        keyStoreAlias ""
 
-    jiaguToolPath ""
+        getKeyStoreAliasPwd ""
+
+        jiaguToolPath ""
+
+    }
 
 }
 
