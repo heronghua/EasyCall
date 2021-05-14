@@ -31,14 +31,16 @@ public class BasicFunctionInstrumentedTest extends BaseFunctionTest{
         mUiDevice.executeShellCommand("input tap " + bounds.right /2+ " " + bounds.bottom/2);
         mUiDevice.executeShellCommand("input tap " + bounds.right/2 + " " + bounds.bottom/2);
         Log.i(TAG,"[testAddContact] bounds.right/2 " + bounds.right/2);
-        boolean enterNextPageSuccess = findUiObjectDuring(new UiSelector().text("获取照片1"), 1);
+        boolean enterNextPageSuccess = findUiObjectDuring(new UiSelector().text("获取照片"), 1);
         assertTrue(enterNextPageSuccess);
 
         //click take picture
         UiObject takePictureObject = mUiDevice.findObject(new UiSelector().text("拍照"));
         takePictureObject.clickAndWaitForNewWindow();
 
-        mUiDevice.executeShellCommand("input keyevent KEYCODE_CAMERA");
+        UiObject shutterButton = mUiDevice.findObject(new UiSelector().resourceIdMatches(".+id/shutter_button"));
+        shutterButton.clickAndWaitForNewWindow();
+
         UiObject doneButtonUiObject = mUiDevice.findObject(new UiSelector().resourceIdMatches(".+done_button"));
         doneButtonUiObject.click();
 
