@@ -9,8 +9,6 @@ import org.junit.runners.MethodSorters;
 
 import java.io.IOException;
 
-import java.io.IOException;
-
 import static org.junit.Assert.*;
 
 /**
@@ -24,16 +22,16 @@ public class BasicFunctionInstrumentedTest extends BaseFunctionTest{
     /** The phone num you want to type for test .*/
     private static final String TEMP_PHONE_NUM1 = "987654321";
     private static final String TEMP_PHONE_NUM2 = "9876543219";
-    private String CALLER_PKG_NAME = "com.android.incallui";;
+    private static final String CALLER_PKG_NAME = "com.android.incallui";;
 
-    @Test
+    @Test(timeout = 20000)
     public void testAddContactByCamera() throws IOException, UiObjectNotFoundException {
         UiObject grid = mUiDevice.findObject(new UiSelector().description("grid"));
         Rect bounds = grid.getBounds();
         mUiDevice.executeShellCommand("input tap " + bounds.right /2+ " " + bounds.bottom/2);
         mUiDevice.executeShellCommand("input tap " + bounds.right/2 + " " + bounds.bottom/2);
         Log.i(TAG,"[testAddContact] bounds.right/2 " + bounds.right/2);
-        boolean enterNextPageSuccess = findUiObjectDuring(new UiSelector().text("获取照片"), 1);
+        boolean enterNextPageSuccess = findUiObjectDuring(new UiSelector().text("获取照片1"), 1);
         assertTrue(enterNextPageSuccess);
 
         //click take picture
@@ -47,7 +45,7 @@ public class BasicFunctionInstrumentedTest extends BaseFunctionTest{
         cropFlowCheck(TEMP_PHONE_NUM1);
     }
 
-    @Test
+    @Test(timeout = 20000)
     public void testAddContactByPicture() throws IOException, UiObjectNotFoundException {
         UiObject grid = mUiDevice.findObject(new UiSelector().description("grid"));
         Rect bounds = grid.getBounds();
@@ -87,7 +85,7 @@ public class BasicFunctionInstrumentedTest extends BaseFunctionTest{
         assertTrue(findUiObjectDuring(new UiSelector().text(phoneNum),2));
     }
 
-    @Test
+    @Test(timeout = 20000)
     public void testCall() throws UiObjectNotFoundException, IOException {
         UiObject grid = mUiDevice.findObject(new UiSelector().description("grid"));
         UiSelector phoneNumItemSelector = new UiSelector().index(0);
@@ -110,7 +108,7 @@ public class BasicFunctionInstrumentedTest extends BaseFunctionTest{
 
     }
 
-    @Test
+    @Test(timeout = 20000)
     public void testDeletePhoneNum() throws UiObjectNotFoundException {
 
         UiSelector phoneNumSelector = new UiSelector().text(TEMP_PHONE_NUM1);

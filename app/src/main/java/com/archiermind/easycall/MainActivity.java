@@ -17,13 +17,14 @@ import android.widget.GridView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends Activity implements Handler.Callback,
+public class MainActivity extends AppCompatActivity implements Handler.Callback,
         View.OnTouchListener, AdapterView.OnItemClickListener,
         DialogInterface.OnClickListener, AdapterView.OnItemLongClickListener {
 
@@ -73,6 +74,7 @@ public class MainActivity extends Activity implements Handler.Callback,
         builder.setTitle(R.string.gain_picture);
         builder.setItems(getResources().getStringArray(R.array.choices), this);
         builder.setNegativeButton(R.string.cancel,null);
+        builder.setCancelable(false);
         mChooseDialog = builder.create();
 
         AlertDialog.Builder savingBuilder = new AlertDialog.Builder(this);
@@ -81,6 +83,7 @@ public class MainActivity extends Activity implements Handler.Callback,
         savingBuilder.setPositiveButton(R.string.confirm,mSavingDialogListener);
         mPhoneNumEdit = (EditText) LayoutInflater.from(this).inflate(R.layout.item_editable, null, true);
         savingBuilder.setView(mPhoneNumEdit);
+        savingBuilder.setCancelable(false);
         mSaveDialog = savingBuilder.create();
 
     }
