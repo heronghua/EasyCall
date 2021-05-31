@@ -21,6 +21,7 @@ import androidx.core.content.FileProvider;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements Handler.Callback,
@@ -28,6 +29,8 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
         DialogInterface.OnClickListener, AdapterView.OnItemLongClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+
+    private static final String TOKEN_PHONE_CLICKED = "token_clicked";
 
     private static final int REQUEST_CODE_CAMERA = 0X46;
     private static final int CAMERA_RESULT_CODE = 0x298;
@@ -67,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
         doParseInBackground();
 
         mGestureDetector = new GestureDetector(this,new GestureMonitor());
-        //mGridView.getRootView().setOnTouchListener(this);
+        mGridView.getRootView().setOnTouchListener(this);
         mGridView.setOnItemLongClickListener(this);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -161,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
 
     @Override
     public void onItemClick(final AdapterView<?> parent, final View view,final int position, final long id) {
-        mMainHandler.removeCallbacksAndMessages(MainActivity.this);
+        mMainHandler.removeCallbacksAndMessages(TOKEN_PHONE_CLICKED);
         Runnable mCallActionInFuture = new Runnable() {
             @Override
             public void run() {
@@ -179,7 +182,9 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
         // We can only judge whether current action triggered double tap after <500 ms , so we do call delayed to see
         // whether it will triggered double click event, when double click triggered ,dialog must be show and this
         // message should be removed
-        mMainHandler.postAtTime(mCallActionInFuture,MainActivity.this,System.currentTimeMillis()+500);
+
+        long currentTime = SystemClock.uptimeMillis();
+        mMainHandler.postAtTime(mCallActionInFuture,TOKEN_PHONE_CLICKED, currentTime +500);
 
     }
 
@@ -221,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
     private class GestureMonitor extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onDoubleTap(MotionEvent e) {
-            mMainHandler.removeCallbacksAndMessages(MainActivity.this);
+            mMainHandler.removeCallbacksAndMessages(TOKEN_PHONE_CLICKED);
             mChooseDialog.show();
             return true;
         }
