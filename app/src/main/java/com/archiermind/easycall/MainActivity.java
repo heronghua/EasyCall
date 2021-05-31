@@ -175,12 +175,11 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
         if (mChooseDialog.isShowing()){
             return;
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            mMainHandler.postDelayed(mCallActionInFuture,MainActivity.this,500);
-        }else {
-            mMainHandler.post(mCallActionInFuture);
-        }
 
+        // We can only judge whether current action triggered double tap after <500 ms , so we do call delayed to see
+        // whether it will triggered double click event, when double click triggered ,dialog must be show and this
+        // message should be removed
+        mMainHandler.postAtTime(mCallActionInFuture,MainActivity.this,System.currentTimeMillis()+500);
 
     }
 
