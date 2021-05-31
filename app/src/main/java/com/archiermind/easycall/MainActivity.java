@@ -2,7 +2,6 @@ package com.archiermind.easycall;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Application;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -45,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
     private Uri mCaptureImageUri;
     private Uri mCropImageUri;
     private EditText mPhoneNumEdit;
+    private int MSG_CALL_IN_FUTURE = 0X678;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
         mGridView.setNumColumns(2);
         mAdapter = new ContactAdapter(this);
         mGridView.setAdapter(mAdapter);
+        mGridView.setOnTouchListener(this);
         mGridView.setOnItemClickListener(this);
         setContentView(mGridView);
         mGridView.setContentDescription("grid");
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
         doParseInBackground();
 
         mGestureDetector = new GestureDetector(this,new GestureMonitor());
-        mGridView.setOnTouchListener(this);
+        //mGridView.getRootView().setOnTouchListener(this);
         mGridView.setOnItemLongClickListener(this);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -159,16 +160,39 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        ContactInfo item = (ContactInfo) parent.getAdapter().getItem(position);
-        Uri phoneUri =Uri.parse( "tel:" + item.getPhoneNum().trim());
-        Intent intent=new Intent(Intent.ACTION_CALL, phoneUri);
-        startActivity(intent);
+    public void onItemClick(final AdapterView<?> parent, final View view,final int position, final long id) {
+        mMainHandler.removeCallbacksAndMessages(MainActivity.this);
+        Runnable mCallActionInFuture = new Runnable() {
+            @Override
+            public void run() {
+                ContactInfo item = (ContactInfo) parent.getAdapter().getItem(position);
+                Uri phoneUri =Uri.parse( "tel:" + item.getPhoneNum().trim());
+                Intent intent=new Intent(Intent.ACTION_CALL, phoneUri);
+                startActivity(intent);
+            }
+        };
+
+        if (mChooseDialog.isShowing()){
+            return;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            mMainHandler.postDelayed(mCallActionInFuture,MainActivity.this,500);
+        }else {
+            mMainHandler.post(mCallActionInFuture);
+        }
+
+
     }
 
     @Override
     public boolean onTouch(View v,MotionEvent event) {
         return mGestureDetector.onTouchEvent(event);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        mGestureDetector.onTouchEvent(event);
+        return super.dispatchTouchEvent(event);
     }
 
     @Override
@@ -198,6 +222,7 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
     private class GestureMonitor extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onDoubleTap(MotionEvent e) {
+            mMainHandler.removeCallbacksAndMessages(MainActivity.this);
             mChooseDialog.show();
             return true;
         }
